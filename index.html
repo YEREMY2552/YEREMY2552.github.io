@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cami Detalles - Arreglos, Regalos y Peluches</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+</head>
+<body>
+    <!-- Header y Navegación -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>🌸 Cami Detalles</h1>
+                </div>
+                <div class="nav-items">
+                    <input type="text" id="searchInput" class="search-bar" placeholder="Buscar productos...">
+                    <button class="cart-btn" onclick="toggleCart()">
+                        🛒 Carrito (<span id="cartCount">0</span>)
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Carrito Lateral -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Mi Carrito</h2>
+            <button class="close-btn" onclick="toggleCart()">✕</button>
+        </div>
+        <div id="cartItems" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: $<span id="cartTotal">0.00</span></strong>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Comprar Ahora</button>
+            <button class="clear-cart-btn" onclick="clearCart()">Limpiar Carrito</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Filtros y Categorías -->
+        <aside class="sidebar">
+            <h3>Categorías</h3>
+            <div class="categories">
+                <button class="category-btn active" onclick="filterByCategory('all')">
+                    Todos
+                </button>
+                <button class="category-btn" onclick="filterByCategory('flores')">
+                    Arreglos Florales
+                </button>
+                <button class="category-btn" onclick="filterByCategory('regalos')">
+                    Regalos
+                </button>
+                <button class="category-btn" onclick="filterByCategory('peluches')">
+                    Peluches
+                </button>
+            </div>
+
+            <h3 style="margin-top: 30px;">Rango de Precio</h3>
+            <div class="price-filter">
+                <input type="range" id="priceRange" min="0" max="150" value="150" oninput="filterByPrice()">
+                <p>Hasta: $<span id="priceValue">150</span></p>
+            </div>
+        </aside>
+
+        <!-- Productos -->
+        <section class="products">
+            <h2>Nuestros Productos</h2>
+            <div id="productContainer" class="product-grid">
+                <!-- Los productos se cargarán aquí con JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Cami Detalles - Arreglos, Regalos y Peluches</p>
+            <p>Contacto:  | Teléfono: </p>
+        </div>
+    </footer>
+
+    <script src="scrip.js"></script>
+</body>
+</html> 
