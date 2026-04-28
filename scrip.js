@@ -418,7 +418,7 @@ function checkout() {
             <input type="email" id="userEmail" placeholder="Tu correo electrónico" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
             <input type="tel" id="userPhone" placeholder="Tu número de celular" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid #ddd;">
             
-            <button class="modal-close" style="background:#ccc; width: 100%;" onclick="this.parentElement.parentElement.remove()">Volver</button>
+            <button class="modal-close" style="background:#4c2882; width: 100%;" onclick="this.parentElement.parentElement.remove()">Volver</button>
         </div>
     `;
     
