@@ -14,10 +14,9 @@ const products = [
         id: 2,
         name: "Calzones del boliviano",
         price: 45.00,
-        category: "flores", // Asegúrate de que coincida con tus botones de filtro
+        category: "flores", 
         description: "Descripción de tu producto",
-        // CAMBIO AQUÍ: Ruta de tu carpeta + nombre del archivo
-        image: "img/fotoprueba.jpeg"
+        image: "img/"
     },
     {
         id: 3,
