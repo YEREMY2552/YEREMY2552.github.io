@@ -254,80 +254,78 @@ function clearCart() {
 // Procesar compra
 function checkout() {
     if (cart.length === 0) {
-        alert('Tu carrito está vacío');
+        alert("Tu carrito está vacío.");
         return;
     }
 
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const adelanto = total * 0.50;
+    const miWhatsApp = "51907577763"; // Tu número configurado
 
     const modal = document.createElement('div');
-    modal.className = 'modal active';
+    modal.className = 'modal-overlay';
     modal.innerHTML = `
-        <div class="modal-content" style="border: 2px solid #ff69b4; max-width: 500px;">
-            <h2>¿Qué deseas hacer? ✨</h2>
-            <p>Selecciona una opción para continuar con tu pedido:</p>
+        <div class="modal-content">
+            <h2>Finalizar Pedido</h2>
+            <p>Total a pagar: <strong>$${total.toFixed(2)}</strong></p>
+            <p>Para reservar se requiere un adelanto del 50% ($${adelanto.toFixed(2)})</p>
             
-            <div style="display: flex; gap: 10px; flex-direction: column; margin: 20px 0;">
-                <button id="optSeparar" style="background: #ff69b4; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-                    🔒 Reservar con el 50% ($${adelanto.toFixed(2)})
-                </button>
-                
-                <button id="optInformacion" style="background: #f0f0f0; color: #333; padding: 15px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; font-weight: bold;">
-                    ℹ️ Solo pedir información
-                </button>
+            <div style="margin-bottom: 15px; text-align: left;">
+                <input type="text" id="userName" placeholder="Tu nombre completo" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+                <input type="tel" id="userPhone" placeholder="Número de contacto" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
             </div>
 
-            <input type="text" id="userName" placeholder="Escribe tu nombre" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-            <input type="tel" id="userPhone" placeholder="Numero de contacto" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid #ddd;">
-            
-            <button class="modal-close" style="background:#4c2882; width: 100%;" onclick="this.parentElement.parentElement.remove()">Volver</button>
+            <button id="btnReserva" class="checkout-btn" style="background:#ff69b4; margin-bottom:10px;">
+                ✅ Reservar con 50%
+            </button>
+            <button id="btnInformacion" class="checkout-btn" style="background:#666; margin-bottom:10px;">
+                💬 Solo pedir información
+            </button>
+            <button onclick="this.parentElement.parentElement.remove()" class="modal-close" style="background:none; color:#999; text-decoration:underline;">
+                Cancelar
+            </button>
         </div>
     `;
-    
     document.body.appendChild(modal);
 
-    const miWhatsApp = "51907577763"; // Mi numero de telefono a donde quiero que me llego los mensajes
-
-    // Lógica para RESERVAR
-    document.getElementById('optSeparar').onclick = function() {
+    // ASIGNACIÓN CORRECTA DE EVENTOS (AQUÍ ESTABA EL FALLO)
+    document.getElementById('btnReserva').addEventListener('click', () => {
         enviarWhatsApp("RESERVA (50% Adelanto)", miWhatsApp, total, adelanto);
-    };
+    });
 
-    // Lógica para INFORMACIÓN
-    document.getElementById('optInformacion').onclick = function() {
+    document.getElementById('btnInformacion').addEventListener('click', () => {
         enviarWhatsApp("SOLICITUD DE INFORMACIÓN", miWhatsApp, total, null);
-    };
+    });
 }
 
 // Función auxiliar para construir el mensaje
 function enviarWhatsApp(tipo, telefono, total, adelanto) {
-    // Cambiamos 'userEmail' por 'userName' para capturar el nombre
-    const nombre = document.getElementById('userName').value;
-    const fono = document.getElementById('userPhone').value;
+    // 1. Obtenemos los valores de los campos de texto
+    const nombre = document.getElementById('userName').value.trim();
+    const fono = document.getElementById('userPhone').value.trim();
 
-    if(!nombre || !fono) {
-        alert("Por favor completa tu nombre y contacto antes de continuar");
+    // 2. Validamos que no estén vacíos
+    if (!nombre || !fono) {
+        alert("Por favor, ingresa tu nombre y número para procesar el pedido.");
         return;
     }
 
+    // 3. Construimos el mensaje incluyendo los datos solicitados
     let mensaje = `*${tipo}*%0A%0A`;
-    mensaje += `Hola, soy *${nombre}* y estoy interesado en:%0A`; // Personalización con nombre
+    mensaje += `Hola, soy *${nombre}* y contacto desde la web.%0A`;
+    mensaje += `*Mi número de contacto:* ${fono}%0A%0A`; // <--- Aquí incluimos el número
+    mensaje += `*Pedido:*%0A`;
     
     cart.forEach(item => {
         mensaje += `- ${item.quantity}x ${item.name}%0A`;
     });
 
-    if(adelanto !== null) {
-        mensaje += `%0AMonto Total: $${total.toFixed(2)}%0A`;
-        mensaje += `*Monto de Adelanto: $${adelanto.toFixed(2)}*%0A`;
-    } else {
-        mensaje += `%0AQuisiera más detalles sobre estos productos.`;
+    if (adelanto !== null) {
+        mensaje += `%0ATotal: $${total.toFixed(2)}%0A`;
+        mensaje += `*Monto de Adelanto (50%): $${adelanto.toFixed(2)}*`;
     }
 
-    // Actualizamos la firma del mensaje
-    mensaje += `%0A%0A*Cliente:* ${nombre}%0A*Contacto:* ${fono}`;
-    
+    // 4. Abrimos la ventana de WhatsApp
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
 }
 
@@ -343,3 +341,6 @@ function loadCartFromLocalStorage() {
         cart = JSON.parse(savedCart);
     }
 }
+
+
+
