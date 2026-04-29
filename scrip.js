@@ -12,7 +12,7 @@ const products = [
     },
     {
         id: 2,
-        name: "Calzones del boliviano",
+        name: "Producto 2",
         price: 45.00,
         category: "flores", 
         description: "Descripción de tu producto",
