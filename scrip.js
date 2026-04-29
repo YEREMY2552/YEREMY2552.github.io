@@ -16,7 +16,7 @@ const products = [
         price: 49.99,
         category: "flores",
         description: "Flores silvestres coloridas variadas",
-        image: "https://images.unsplash.com/photo-1520763185298-1b434c919abe?w=400&h=300&fit=crop"
+        image: "img/fotoprueba.png"
     },
     {
         id: 3,
