@@ -20,11 +20,15 @@ async function loadProductsFromSheet() {
             return {
                 id: parseInt(cols[0]) || index + 1,
                 name: cols[1]?.trim().replace(/"/g, ""),
-                price: parseFloat(cols[2]) || 0,
+    
+                // ESTA LÍNEA ES LA CORRECCIÓN:
+                // Limpia el símbolo $, cambia comas por puntos y luego convierte a número
+                 price: parseFloat(cols[2]?.toString().replace(/[^\d,.]/g, '').replace(',', '.')) || 0,
+    
                 category: cols[3]?.trim().toLowerCase(),
                 description: cols[4]?.trim().replace(/"/g, ""),
                 image: cols[5]?.trim()
-            };
+};
         });
 
         console.log("Productos cargados:", products);
