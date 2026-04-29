@@ -68,7 +68,10 @@ function loadProducts(productsToShow) {
         productCard.className = 'product-card';
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" style="width:100%; height:200px; object-fit:cover; border-radius:8px;">
+                <img src="${product.image.startsWith('http') ? product.image : './' + product.image}" 
+                    onerror="this.src='https://via.placeholder.com/200?text=Cami+Detalles'"
+                    alt="${product.name}" 
+                    style="width:100%; height:200px; object-fit:cover; border-radius:8px;">
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
