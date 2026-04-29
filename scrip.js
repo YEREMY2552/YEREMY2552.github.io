@@ -12,7 +12,7 @@ const products = [
     },
     {
         id: 2,
-        name: "Bouquet Primavera",
+        name: "Calzon de Boliviano",
         price: 49.99,
         category: "flores",
         description: "Flores silvestres coloridas variadas",
