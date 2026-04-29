@@ -20,35 +20,35 @@ const products = [
     },
     {
         id: 3,
-        name: "Arreglo Tulipanes",
+        name: "Producto 3",
         price: 54.99,
         category: "flores",
         description: "12 tulipanes frescos y aromáticos",
-        image: "https://images.unsplash.com/photo-1520763185298-1b434c919abe?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 4,
-        name: "Girasoles Alegres",
+        name: "Producto 4",
         price: 44.99,
         category: "flores",
         description: "Ramo de girasoles dorados brillantes",
-        image: "https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 5,
-        name: "Orquídeas Exóticas",
+        name: "Producto 5",
         price: 89.99,
         category: "flores",
         description: "Orquídeas frescas en arreglo especial",
-        image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 6,
-        name: "Flores Pastel",
+        name: "Producto 6",
         price: 69.99,
         category: "flores",
         description: "Arreglo con flores en tonos pastel",
-        image: "https://images.unsplash.com/photo-1599599810694-b5ac4dd64e76?w=400&h=300&fit=crop"
+        image: ""
     },
     
     // Regalos
@@ -58,7 +58,7 @@ const products = [
         price: 34.99,
         category: "regalos",
         description: "Bombones artesanales 12 piezas",
-        image: "https://images.unsplash.com/photo-1599599810694-5ac4dd64e76f?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 8,
@@ -66,7 +66,7 @@ const products = [
         price: 45.99,
         category: "regalos",
         description: "3 velas aromáticas premium",
-        image: "https://images.unsplash.com/photo-1596552182016-551fef89fcfd?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 9,
@@ -74,7 +74,7 @@ const products = [
         price: 79.99,
         category: "regalos",
         description: "Perfume elegante de lujo 100ml",
-        image: "https://images.unsplash.com/photo-1505252585461-04db1921b902?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 10,
@@ -82,7 +82,7 @@ const products = [
         price: 99.99,
         category: "regalos",
         description: "Cesta con varios productos premium",
-        image: "https://images.unsplash.com/photo-1607023814726-f68db924d4d1?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 11,
@@ -90,7 +90,7 @@ const products = [
         price: 54.99,
         category: "regalos",
         description: "Joyero de madera tallada artesanal",
-        image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 12,
@@ -98,7 +98,7 @@ const products = [
         price: 89.99,
         category: "regalos",
         description: "Pulsera plateada elegante con diseño",
-        image: "https://images.unsplash.com/photo-1515562141207-5dca3b3a3178?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 13,
@@ -106,7 +106,7 @@ const products = [
         price: 34.99,
         category: "regalos",
         description: "Álbum para 200 fotos con diseño",
-        image: "https://images.unsplash.com/photo-1606933248051-5ce98adc7da0?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 14,
@@ -114,7 +114,7 @@ const products = [
         price: 24.99,
         category: "regalos",
         description: "Marco dorado para fotos 10x15",
-        image: "https://images.unsplash.com/photo-1578301978162-7aae4d755744?w=400&h=300&fit=crop"
+        image: ""
     },
     
     // Peluches
@@ -124,7 +124,7 @@ const products = [
         price: 79.99,
         category: "peluches",
         description: "Oso XXL suave 80cm de altura",
-        image: "https://images.unsplash.com/photo-1589922582032-a98cdb2a7ae1?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 16,
@@ -132,7 +132,7 @@ const products = [
         price: 49.99,
         category: "peluches",
         description: "Unicornio de peluche multicolor",
-        image: "https://images.unsplash.com/photo-1585647347386-72b5e7ef0b67?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 17,
@@ -140,7 +140,7 @@ const products = [
         price: 39.99,
         category: "peluches",
         description: "Peluche perro suave con accesorios",
-        image: "https://images.unsplash.com/photo-1612001843886-e3aa5ec90eca?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 18,
@@ -148,7 +148,7 @@ const products = [
         price: 34.99,
         category: "peluches",
         description: "Gato de peluche con ojos grandes",
-        image: "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 19,
@@ -156,7 +156,7 @@ const products = [
         price: 29.99,
         category: "peluches",
         description: "Conejito suave rosado con orejas",
-        image: "https://images.unsplash.com/photo-1585647347386-72b5e7ef0b67?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 20,
@@ -164,7 +164,7 @@ const products = [
         price: 59.99,
         category: "peluches",
         description: "Set de 2 pandas abrazados",
-        image: "https://images.unsplash.com/photo-1570408109519-0f1d4151ceb0?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 21,
@@ -172,7 +172,7 @@ const products = [
         price: 24.99,
         category: "peluches",
         description: "Peluche mariposa con colores vibrantes",
-        image: "https://images.unsplash.com/photo-1593642632459-d977a0ecc119?w=400&h=300&fit=crop"
+        image: ""
     },
     {
         id: 22,
