@@ -12,35 +12,53 @@ async function loadProductsFromSheet() {
         const data = await response.text();
         const rows = data.trim().split(/\r?\n/).slice(1); 
 
-        // Procesar datos del Excel
         products = rows.map((row, index) => {
             let cols = row.split(',');
             if (cols.length < 5) cols = row.split(';');
 
-                return {
+            return {
                 id: parseInt(cols[0]) || index + 1,
                 name: cols[1]?.trim().replace(/"/g, ""),
                 price: parseFloat(cols[2]?.toString().replace(/[^\d,.]/g, '').replace(',', '.')) || 0,
-    
-                // CORRECCIÓN AQUÍ: Limpia espacios y pasa a minúsculas
-                category: cols[3]?.trim().toLowerCase(), 
-    
+                category: cols[3] ? cols[3].trim().toLowerCase() : "todos",
                 description: cols[4]?.trim().replace(/"/g, ""),
                 image: cols[5]?.trim()
-};
+            };
         });
 
-        console.log("Productos cargados:", products);
-        
-        // ¡ESTA ES LA CLAVE! 
-        // Llamamos a loadProducts pasándole la nueva lista
-        loadProducts(products); 
-        
+        // ESTA LÍNEA ES CLAVE: Muestra los productos apenas cargan
+        displayProducts(products); 
+
     } catch (error) {
-        console.error("Error en la carga:", error);
-        alert("Error al cargar productos. Revisa la consola.");
+        console.error("Error cargando productos:", error);
     }
 }
+
+function displayProducts(productsToShow) {
+    const container = document.getElementById('productContainer');
+    if (!container) return;
+    
+    container.innerHTML = ""; // Limpia la pantalla antes de mostrar los filtrados
+
+    productsToShow.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+                <span class="category-tag">${product.category}</span>
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="product-price">$${product.price.toFixed(2)}</div>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">
+                    Agregar al Carrito
+                </button>
+            </div>
+        `;
+        container.appendChild(productCard);
+    });
+}
+
 
 // Ejecutar la carga al iniciar la página
 window.onload = () => {
@@ -72,10 +90,10 @@ function loadProducts(productsToShow) {
         productCard.innerHTML = `
             <div class="product-image">
                 <img src="${product.image.startsWith('http') ? product.image : './' + product.image}" 
-                    onerror="this.src='https://via.placeholder.com/200?text=Cami+Detalles'"
-                    alt="${product.name}" 
-                    style="width:100%; height:200px; object-fit:cover; border-radius:8px;">
-            </div>
+                onerror="this.src='https://via.placeholder.com/200x300?text=Cami+Detalles'"
+                alt="${product.name}" 
+                style="width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0;">
+                </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-category">${product.category}</div>
@@ -92,27 +110,18 @@ function loadProducts(productsToShow) {
 
 // Filtrar por categoría
 function filterByCategory(category) {
-    // 1. Efecto visual en los botones
+    // 1. Estética de los botones
     document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
 
-    // 2. Lógica de filtro
-    const selectedCategory = category.toLowerCase();
+    const catBuscada = category.toLowerCase();
 
-    if (selectedCategory === 'all' || selectedCategory === 'todos') {
-        displayProducts(products); // Muestra todo
+    // 2. Lógica de filtrado
+    if (catBuscada === 'all' || catBuscada === 'todos') {
+        displayProducts(products); // Muestra todos los originales
     } else {
-        const filtered = products.filter(p => {
-            // Esto permite que si en Excel dice "Arreglos Florales", 
-            // el botón "flores" lo encuentre (o viceversa)
-            const catProducto = p.category;
-            
-            if (selectedCategory === 'flores') {
-                return catProducto.includes('flora') || catProducto.includes('flores');
-            }
-            return catProducto === selectedCategory;
-        });
-        displayProducts(filtered);
+        const filtrados = products.filter(p => p.category === catBuscada);
+        displayProducts(filtrados); // Muestra solo los filtrados
     }
 }
 
