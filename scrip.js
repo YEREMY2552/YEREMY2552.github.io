@@ -180,7 +180,7 @@ const products = [
         price: 34.99,
         category: "peluches",
         description: "Pingüino de peluche movible",
-        emoji: "🐧"
+        emoji: ""
     }
 ];
 
