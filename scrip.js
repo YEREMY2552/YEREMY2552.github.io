@@ -4,7 +4,7 @@ const products = [
     {
         id: 1,
         name: "Arreglo Floral Romántico",
-        price: 59.99,
+        price: 79.99,
         category: "flores",
         description: "Rosas rojas",
         //cambia eso de html a img
@@ -14,7 +14,7 @@ const products = [
         id: 2,
         name: "HOLA",
         price: 45.00,
-        category: "peluches", // Asegúrate de que coincida con tus botones de filtro
+        category: "flores", // Asegúrate de que coincida con tus botones de filtro
         description: "Descripción de tu producto",
         // CAMBIO AQUÍ: Ruta de tu carpeta + nombre del archivo
         image: "img/fotoprueba.jpeg"
