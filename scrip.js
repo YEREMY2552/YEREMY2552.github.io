@@ -12,11 +12,12 @@ const products = [
     },
     {
         id: 2,
-        name: "Calzon de Boliviano",
-        price: 49.99,
-        category: "flores",
-        description: "Flores silvestres coloridas variadas",
-        image: "img/fotoprueba.png"
+        name: "HOLA",
+        price: 45.00,
+        category: "peluches", // Asegúrate de que coincida con tus botones de filtro
+        description: "Descripción de tu producto",
+        // CAMBIO AQUÍ: Ruta de tu carpeta + nombre del archivo
+        image: "img/fotoprueba.jpeg"
     },
     {
         id: 3,
