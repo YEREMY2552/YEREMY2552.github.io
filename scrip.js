@@ -278,7 +278,7 @@ function checkout() {
                 </button>
             </div>
 
-            <input type="email" id="userEmail" placeholder="Tu numero de celular" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+            <input type="email" id="userEmail" placeholder="nombre" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
             <input type="tel" id="userPhone" placeholder="Numero de contacto" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid #ddd;">
             
             <button class="modal-close" style="background:#4c2882; width: 100%;" onclick="this.parentElement.parentElement.remove()">Volver</button>
