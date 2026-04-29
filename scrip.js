@@ -6,26 +6,32 @@ let products = []; // La lista empezará vacía
 async function loadProductsFromSheet() {
     try {
         const response = await fetch(SHEET_URL);
+        if (!response.ok) throw new Error("No se pudo conectar con Google");
+        
         const data = await response.text();
         
-        // Convertimos el CSV a una lista de objetos
-        const rows = data.split('\n').slice(1); // Saltamos la fila de encabezados
-        products = rows.map(row => {
-            const cols = row.split(',');
+        // Dividimos por filas y limpiamos espacios vacíos
+        const rows = data.trim().split(/\r?\n/).slice(1); 
+
+        products = rows.map((row, index) => {
+            // Intentamos separar por coma, si no funciona, por punto y coma
+            let cols = row.split(',');
+            if (cols.length < 5) cols = row.split(';');
+
             return {
-                id: parseInt(cols[0]),
-                name: cols[1],
-                price: parseFloat(cols[2]),
-                category: cols[3].trim(),
-                description: cols[4],
-                image: cols[5].trim()
+                id: parseInt(cols[0]) || index + 1,
+                name: cols[1]?.trim().replace(/"/g, ""),
+                price: parseFloat(cols[2]) || 0,
+                category: cols[3]?.trim().toLowerCase(),
+                description: cols[4]?.trim().replace(/"/g, ""),
+                image: cols[5]?.trim()
             };
         });
 
-        // Una vez cargados, los mostramos
-        displayProducts(products);
+        console.log("Productos cargados con éxito:", products);
+        displayProducts(products); // Asegúrate de que esta función exista abajo
     } catch (error) {
-        console.error("Error al cargar Google Sheets:", error);
+        console.error("Error en la carga de datos:", error);
     }
 }
 
