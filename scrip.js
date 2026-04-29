@@ -1,188 +1,36 @@
-// Base de datos de productos
-const products = [
-    // Arreglos Florales
-    {
-        id: 1,
-        name: "Arreglo Floral Romántico",
-        price: 79.99,
-        category: "flores",
-        description: "Rosas rojas",
-        //cambia eso de html a img
-        image: "img/Arreglo-floral.png"
-    },
-    {
-        id: 2,
-        name: "Producto 2",
-        price: 45.00,
-        category: "flores", 
-        description: "Descripción de tu producto",
-        image: "img/"
-    },
-    {
-        id: 3,
-        name: "Producto 3",
-        price: 54.99,
-        category: "flores",
-        description: "12 tulipanes frescos y aromáticos",
-        image: ""
-    },
-    {
-        id: 4,
-        name: "Producto 4",
-        price: 44.99,
-        category: "flores",
-        description: "Ramo de girasoles dorados brillantes",
-        image: ""
-    },
-    {
-        id: 5,
-        name: "Producto 5",
-        price: 89.99,
-        category: "flores",
-        description: "Orquídeas frescas en arreglo especial",
-        image: ""
-    },
-    {
-        id: 6,
-        name: "Producto 6",
-        price: 69.99,
-        category: "flores",
-        description: "Arreglo con flores en tonos pastel",
-        image: ""
-    },
-    
-    // Regalos
-    {
-        id: 7,
-        name: "Caja de Chocolates Gourmet",
-        price: 34.99,
-        category: "regalos",
-        description: "Bombones artesanales 12 piezas",
-        image: ""
-    },
-    {
-        id: 8,
-        name: "Set de Velas Aromáticas",
-        price: 45.99,
-        category: "regalos",
-        description: "3 velas aromáticas premium",
-        image: ""
-    },
-    {
-        id: 9,
-        name: "Botella Perfume Premium",
-        price: 79.99,
-        category: "regalos",
-        description: "Perfume elegante de lujo 100ml",
-        image: ""
-    },
-    {
-        id: 10,
-        name: "Cesta de Regalos Deluxe",
-        price: 99.99,
-        category: "regalos",
-        description: "Cesta con varios productos premium",
-        image: ""
-    },
-    {
-        id: 11,
-        name: "Joyero Decorativo",
-        price: 54.99,
-        category: "regalos",
-        description: "Joyero de madera tallada artesanal",
-        image: ""
-    },
-    {
-        id: 12,
-        name: "Pulsera de Plata",
-        price: 89.99,
-        category: "regalos",
-        description: "Pulsera plateada elegante con diseño",
-        image: ""
-    },
-    {
-        id: 13,
-        name: "Album de Fotos",
-        price: 34.99,
-        category: "regalos",
-        description: "Álbum para 200 fotos con diseño",
-        image: ""
-    },
-    {
-        id: 14,
-        name: "Marco Decorativo",
-        price: 24.99,
-        category: "regalos",
-        description: "Marco dorado para fotos 10x15",
-        image: ""
-    },
-    
-    // Peluches
-    {
-        id: 15,
-        name: "Oso de Peluche Gigante",
-        price: 79.99,
-        category: "peluches",
-        description: "Oso XXL suave 80cm de altura",
-        image: ""
-    },
-    {
-        id: 16,
-        name: "Unicornio Mágico",
-        price: 49.99,
-        category: "peluches",
-        description: "Unicornio de peluche multicolor",
-        image: ""
-    },
-    {
-        id: 17,
-        name: "Perrito Adorable",
-        price: 39.99,
-        category: "peluches",
-        description: "Peluche perro suave con accesorios",
-        image: ""
-    },
-    {
-        id: 18,
-        name: "Gato Tierno",
-        price: 34.99,
-        category: "peluches",
-        description: "Gato de peluche con ojos grandes",
-        image: ""
-    },
-    {
-        id: 19,
-        name: "Conejito Rosa",
-        price: 29.99,
-        category: "peluches",
-        description: "Conejito suave rosado con orejas",
-        image: ""
-    },
-    {
-        id: 20,
-        name: "Pandas Gemelos",
-        price: 59.99,
-        category: "peluches",
-        description: "Set de 2 pandas abrazados",
-        image: ""
-    },
-    {
-        id: 21,
-        name: "Mariposa Colorida",
-        price: 24.99,
-        category: "peluches",
-        description: "Peluche mariposa con colores vibrantes",
-        image: ""
-    },
-    {
-        id: 22,
-        name: "Pingüino Divertido",
-        price: 34.99,
-        category: "peluches",
-        description: "Pingüino de peluche movible",
-        emoji: ""
+// Reemplaza el enlace de abajo por el tuyo de Google Sheets (el que termina en output=csv)
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTuBEsYxq9GP-C8cASsPouBS5_6f7Po-vXUXcRd7Ag9QkILqBrdBg0nYWrNLNon3up40N2vGiwOrUT9/pub?output=csv';
+
+let products = []; // La lista empezará vacía
+
+async function loadProductsFromSheet() {
+    try {
+        const response = await fetch(SHEET_URL);
+        const data = await response.text();
+        
+        // Convertimos el CSV a una lista de objetos
+        const rows = data.split('\n').slice(1); // Saltamos la fila de encabezados
+        products = rows.map(row => {
+            const cols = row.split(',');
+            return {
+                id: parseInt(cols[0]),
+                name: cols[1],
+                price: parseFloat(cols[2]),
+                category: cols[3].trim(),
+                description: cols[4],
+                image: cols[5].trim()
+            };
+        });
+
+        // Una vez cargados, los mostramos
+        displayProducts(products);
+    } catch (error) {
+        console.error("Error al cargar Google Sheets:", error);
     }
-];
+}
+
+// Ejecutar la carga al iniciar la página
+window.onload = loadProductsFromSheet;
 
 // Carrito
 let cart = [];
