@@ -302,16 +302,18 @@ function checkout() {
 
 // Función auxiliar para construir el mensaje
 function enviarWhatsApp(tipo, telefono, total, adelanto) {
-    const email = document.getElementById('userEmail').value;
+    // Cambiamos 'userEmail' por 'userName' para capturar el nombre
+    const nombre = document.getElementById('userName').value;
     const fono = document.getElementById('userPhone').value;
 
-    if(!email || !fono) {
-        alert("Por favor completa tus datos antes de continuar");
+    if(!nombre || !fono) {
+        alert("Por favor completa tu nombre y contacto antes de continuar");
         return;
     }
 
     let mensaje = `*${tipo}*%0A%0A`;
-    mensaje += `Hola, estoy interesado en:%0A`;
+    mensaje += `Hola, soy *${nombre}* y estoy interesado en:%0A`; // Personalización con nombre
+    
     cart.forEach(item => {
         mensaje += `- ${item.quantity}x ${item.name}%0A`;
     });
@@ -323,7 +325,8 @@ function enviarWhatsApp(tipo, telefono, total, adelanto) {
         mensaje += `%0AQuisiera más detalles sobre estos productos.`;
     }
 
-    mensaje += `%0A%0A*Cliente:* ${email}%0A*Contacto:* ${fono}`;
+    // Actualizamos la firma del mensaje
+    mensaje += `%0A%0A*Cliente:* ${nombre}%0A*Contacto:* ${fono}`;
     
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
 }
