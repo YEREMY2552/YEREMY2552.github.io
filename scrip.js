@@ -17,15 +17,14 @@ async function loadProductsFromSheet() {
             let cols = row.split(',');
             if (cols.length < 5) cols = row.split(';');
 
-            return {
+                return {
                 id: parseInt(cols[0]) || index + 1,
                 name: cols[1]?.trim().replace(/"/g, ""),
+                price: parseFloat(cols[2]?.toString().replace(/[^\d,.]/g, '').replace(',', '.')) || 0,
     
-                // ESTA LÍNEA ES LA CORRECCIÓN:
-                // Limpia el símbolo $, cambia comas por puntos y luego convierte a número
-                 price: parseFloat(cols[2]?.toString().replace(/[^\d,.]/g, '').replace(',', '.')) || 0,
+                // CORRECCIÓN AQUÍ: Limpia espacios y pasa a minúsculas
+                category: cols[3]?.trim().toLowerCase(), 
     
-                category: cols[3]?.trim().toLowerCase(),
                 description: cols[4]?.trim().replace(/"/g, ""),
                 image: cols[5]?.trim()
 };
@@ -93,9 +92,28 @@ function loadProducts(productsToShow) {
 
 // Filtrar por categoría
 function filterByCategory(category) {
-    currentCategory = category;
-    updateActiveButton(event.target);
-    applyFilters();
+    // 1. Efecto visual en los botones
+    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // 2. Lógica de filtro
+    const selectedCategory = category.toLowerCase();
+
+    if (selectedCategory === 'all' || selectedCategory === 'todos') {
+        displayProducts(products); // Muestra todo
+    } else {
+        const filtered = products.filter(p => {
+            // Esto permite que si en Excel dice "Arreglos Florales", 
+            // el botón "flores" lo encuentre (o viceversa)
+            const catProducto = p.category;
+            
+            if (selectedCategory === 'flores') {
+                return catProducto.includes('flora') || catProducto.includes('flores');
+            }
+            return catProducto === selectedCategory;
+        });
+        displayProducts(filtered);
+    }
 }
 
 // Filtrar por precio
