@@ -5,16 +5,15 @@ let products = []; // La lista empezará vacía
 
 async function loadProductsFromSheet() {
     try {
+        console.log("Iniciando conexión con Google Sheets...");
         const response = await fetch(SHEET_URL);
         if (!response.ok) throw new Error("No se pudo conectar con Google");
         
         const data = await response.text();
-        
-        // Dividimos por filas y limpiamos espacios vacíos
         const rows = data.trim().split(/\r?\n/).slice(1); 
 
+        // Procesar datos del Excel
         products = rows.map((row, index) => {
-            // Intentamos separar por coma, si no funciona, por punto y coma
             let cols = row.split(',');
             if (cols.length < 5) cols = row.split(';');
 
@@ -28,15 +27,24 @@ async function loadProductsFromSheet() {
             };
         });
 
-        console.log("Productos cargados con éxito:", products);
-        displayProducts(products); // Asegúrate de que esta función exista abajo
+        console.log("Productos cargados:", products);
+        
+        // ¡ESTA ES LA CLAVE! 
+        // Llamamos a loadProducts pasándole la nueva lista
+        loadProducts(products); 
+        
     } catch (error) {
-        console.error("Error en la carga de datos:", error);
+        console.error("Error en la carga:", error);
+        alert("Error al cargar productos. Revisa la consola.");
     }
 }
 
 // Ejecutar la carga al iniciar la página
-window.onload = loadProductsFromSheet;
+window.onload = () => {
+    loadProductsFromSheet();
+    loadCartFromLocalStorage();
+    updateCartCount();
+};
 
 // Carrito
 let cart = [];
@@ -44,12 +52,6 @@ let filteredProducts = [...products];
 let currentCategory = "all";
 let currentMaxPrice = 150;
 
-// Inicializar
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts(products);
-    loadCartFromLocalStorage();
-    updateCartCount();
-});
 
 // Cargar productos en la página
 function loadProducts(productsToShow) {
