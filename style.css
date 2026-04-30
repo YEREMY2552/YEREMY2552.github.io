@@ -330,20 +330,27 @@ body {
     border: 1px solid #eee;
 }
 
+/* Contenedor de la imagen del producto */
 .product-image {
     width: 100%;
-    height: auto; /* Permite que la imagen dicte el largo */
-    background: none; 
-    display: block;
+    aspect-ratio: 1 / 1; /* Esto obliga a que sea un cuadrado perfecto */
     overflow: hidden;
+    background-color: #fdfdfd; /* Fondo neutro por si la imagen tiene transparencias */
+    border-radius: 12px 12px 0 0;
 }
 
 .product-image img {
     width: 100%;
-    height: auto; /* Mantiene la proporción original */
+    height: 100%;
+    object-fit: cover; /* Corta los bordes sobrantes para llenar el cuadrado sin deformarse */
+    object-position: center; /* Centra la imagen dentro del cuadrado */
     display: block;
-    object-fit: contain; /* Muestra la imagen completa sin recortar */
-    border-radius: 12px 12px 0 0;
+    transition: transform 0.5s ease;
+}
+
+/* Efecto opcional: zoom suave al pasar el mouse */
+.product-card:hover .product-image img {
+    transform: scale(1.1);
 }
 
 .product-info {
@@ -391,38 +398,40 @@ body {
     font-size: 18px;
 }
 
-/* Reemplaza o actualiza tu .add-btn */
+/* Estado base del botón dinámico */
 .add-btn {
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+    background: linear-gradient(135deg, #ff007f 0%, #ff69b4 100%); /* Fucsia intenso */
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 50px; /* Botón más redondeado y moderno */
+    padding: 12px 25px;
+    border-radius: 50px; /* Bordes totalmente ovalados */
     cursor: pointer;
-    font-weight: 700;
-    font-size: 0.9rem;
+    font-weight: bold;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espacio entre el icono y el texto */
+    gap: 10px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
-    width: 100%; /* Ocupa todo el ancho de la tarjeta */
-}
-
-.add-btn::before {
-    content: '🛒'; /* Icono integrado */
-    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3); /* Sombra fucsia */
+    width: 100%;
+    border: 2px solid transparent;
 }
 
 .add-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
-    background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(255, 0, 127, 0.5);
+    background: linear-gradient(135deg, #ff69b4 0%, #ff007f 100%);
 }
 
-.add-btn:active {
-    transform: translateY(0) scale(0.95);
+/* El estado de éxito ahora es un verde esmeralda que resalta con el fucsia */
+.add-btn.success {
+    background: #2ecc71 !important;
+    border-radius: 50px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* Footer */
