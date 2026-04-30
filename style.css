@@ -391,23 +391,38 @@ body {
     font-size: 18px;
 }
 
+/* Reemplaza o actualiza tu .add-btn */
 .add-btn {
-    background: linear-gradient(135deg, #ff69b4 0%, #ffb6d9 100%);
+    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 50px; /* Botón más redondeado y moderno */
     cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s ease;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio entre el icono y el texto */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+    width: 100%; /* Ocupa todo el ancho de la tarjeta */
+}
+
+.add-btn::before {
+    content: '🛒'; /* Icono integrado */
+    font-size: 1.1rem;
 }
 
 .add-btn:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+    background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
 }
 
 .add-btn:active {
-    transform: scale(0.95);
+    transform: translateY(0) scale(0.95);
 }
 
 /* Footer */
