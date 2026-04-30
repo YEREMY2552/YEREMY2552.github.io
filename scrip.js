@@ -74,61 +74,20 @@ let currentCategory = "all";
 let currentMaxPrice = 150;
 
 
-// Cargar productos en la página
-function loadProducts(productsToShow) {
-    const productContainer = document.getElementById('productContainer');
-    productContainer.innerHTML = '';
-
-    if (productsToShow.length === 0) {
-        productContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">No hay productos que coincidan con tus criterios</p>';
-        return;
-    }
-
-    productsToShow.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        productCard.innerHTML = `
-            <div class="product-image">
-                <img src="${product.image.startsWith('http') ? product.image : './' + product.image}" 
-                onerror="this.src='https://via.placeholder.com/200x300?text=Cami+Detalles'"
-                alt="${product.name}" 
-                style="width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0;">
-                </div>
-            <div class="product-info">
-                <div class="product-name">${product.name}</div>
-                <div class="product-category">${product.category}</div>
-                <div class="product-description">${product.description}</div>
-                <div class="product-footer">
-                    <div class="product-price">$${product.price.toFixed(2)}</div>
-                    <button class="add-btn" onclick="addToCart(${product.id})">Agregar</button>
-                </div>
-            </div>
-        `;
-        productContainer.appendChild(productCard);
-    });
-}
-
 // Filtrar por categoría
-function filterByCategory(category) {
-    // 1. Estética de los botones
-    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-
-    const catBuscada = category.toLowerCase();
-
-    // 2. Lógica de filtrado
-    if (catBuscada === 'all' || catBuscada === 'todos') {
-        displayProducts(products); // Muestra todos los originales
-    } else {
-        const filtrados = products.filter(p => p.category === catBuscada);
-        displayProducts(filtrados); // Muestra solo los filtrados
+function filterByCategory(category, button) {
+    if (button) {
+        updateActiveButton(button);
     }
+
+    currentCategory = category.toLowerCase();
+    applyFilters();
 }
 
 // Filtrar por precio
 function filterByPrice() {
     const priceRange = document.getElementById('priceRange');
-    currentMaxPrice = parseInt(priceRange.value);
+    currentMaxPrice = parseInt(priceRange.value, 10);
     document.getElementById('priceValue').textContent = currentMaxPrice;
     applyFilters();
 }
@@ -136,12 +95,11 @@ function filterByPrice() {
 // Aplicar todos los filtros
 function applyFilters() {
     filteredProducts = products.filter(product => {
-        const categoryMatch = currentCategory === 'all' || product.category === currentCategory;
+        const categoryMatch = currentCategory === 'all' || currentCategory === 'todos' || product.category === currentCategory;
         const priceMatch = product.price <= currentMaxPrice;
         return categoryMatch && priceMatch;
     });
 
-    // Aplicar búsqueda también
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     if (searchInput) {
         filteredProducts = filteredProducts.filter(product =>
@@ -150,7 +108,7 @@ function applyFilters() {
         );
     }
 
-    loadProducts(filteredProducts);
+    displayProducts(filteredProducts);
 }
 
 // Búsqueda en tiempo real
@@ -162,13 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Actualizar botón activo
-function updateActiveButton(button) {
-    const buttons = document.querySelectorAll('.category-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-}
 
 // Agregar al carrito
 function addToCart(productId) {
