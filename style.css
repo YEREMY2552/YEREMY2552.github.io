@@ -403,17 +403,17 @@ body {
     background: linear-gradient(135deg, #ff007f 0%, #ff69b4 100%); /* Fucsia intenso */
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 50px; /* Bordes totalmente ovalados */
+    padding: 8px 16px;
+    border-radius: 25px; /* Bordes totalmente ovalados */
     cursor: pointer;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3); /* Sombra fucsia */
+    box-shadow: 0 3px 10px rgba(255, 0, 127, 0.3); /* Sombra fucsia */
     width: 100%;
     border: 2px solid transparent;
 }
