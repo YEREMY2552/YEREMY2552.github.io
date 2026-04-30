@@ -346,4 +346,10 @@ function loadCartFromLocalStorage() {
 }
 
 
-
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('🌸 CamiApp: Service Worker registrado con éxito'))
+            .catch(err => console.warn('Error al registrar SW', err));
+    });
+}
