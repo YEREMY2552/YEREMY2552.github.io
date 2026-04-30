@@ -1,7 +1,7 @@
 {
   "name": "Cami Detalles App",
   "short_name": "CamiApp",
-  "start_url": "index.html",
+  "start_url": "index_12.html",
   "display": "standalone",
   "background_color": "#ff69b4",
   "theme_color": "#ff69b4",
