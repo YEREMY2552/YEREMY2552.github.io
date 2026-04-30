@@ -313,10 +313,10 @@ function enviarWhatsApp(tipo, telefono, total, adelanto) {
         return;
     }
 
-    // 3. Construimos el mensaje incluyendo los datos solicitados
+    // 3. Construimos el mensaje
     let mensaje = `*${tipo}*%0A%0A`;
     mensaje += `Hola, soy *${nombre}* y contacto desde la web.%0A`;
-    mensaje += `*Mi número de contacto:* ${fono}%0A%0A`; // <--- Aquí incluimos el número
+    mensaje += `*Mi número de contacto:* ${fono}%0A%0A`;
     mensaje += `*Pedido:*%0A`;
     
     cart.forEach(item => {
@@ -325,7 +325,9 @@ function enviarWhatsApp(tipo, telefono, total, adelanto) {
 
     if (adelanto !== null) {
         mensaje += `%0ATotal: $${total.toFixed(2)}%0A`;
-        mensaje += `*Monto de Adelanto (50%): $${adelanto.toFixed(2)}*`;
+        mensaje += `*Monto de Adelanto (50%): $${adelanto.toFixed(2)}*%0A%0A`;
+        // AQUÍ AGREGAMOS LA NUEVA LÍNEA:
+        mensaje += `⚠️ *Por favor, adjunte su captura de transferencia para validar su reserva.*`;
     }
 
     // 4. Abrimos la ventana de WhatsApp
