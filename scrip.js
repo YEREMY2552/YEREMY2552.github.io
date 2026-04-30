@@ -40,23 +40,26 @@ function displayProducts(productsToShow) {
     
     container.innerHTML = ""; // Limpia la pantalla antes de mostrar los filtrados
 
-    productsToShow.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        productCard.innerHTML = `
+    // Dentro de displayProducts en scrip_10.js
+productsToShow.forEach(product => {
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+    productCard.innerHTML = `
+        <div class="product-image">
             <img src="${product.image}" alt="${product.name}">
-            <div class="product-info">
-                <span class="category-tag">${product.category}</span>
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <div class="product-price">$${product.price.toFixed(2)}</div>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">
-                    Agregar al Carrito
-                </button>
-            </div>
-        `;
-        container.appendChild(productCard);
-    });
+        </div>
+        <div class="product-info">
+            <span class="category-tag">${product.category}</span>
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="product-price">$${product.price.toFixed(2)}</div>
+            <button class="add-btn" onclick="addToCart(${product.id})">
+                <span>🛒</span> Agregar al Carrito
+            </button>
+        </div>
+    `;
+    container.appendChild(productCard);
+});
 }
 
 
@@ -124,23 +127,45 @@ document.addEventListener('DOMContentLoaded', () => {
 // Agregar al carrito
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
-    const existingItem = cart.find(item => item.id === productId);
+    
+    // Capturamos el botón específico que fue presionado
+    const btn = event.target.closest('.add-btn');
+    const originalContent = btn.innerHTML;
 
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            quantity: 1
-        });
-    }
+    // 1. Fase de Carga: Feedback visual inmediato
+    btn.classList.add('loading');
 
-    saveCartToLocalStorage();
-    updateCartCount();
-    updateCartDisplay();
-    showNotification(`${product.name} agregado al carrito`);
+    // Simulamos un pequeño retraso para procesar (400ms)
+    setTimeout(() => {
+        // Lógica de datos del carrito
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: 1
+            });
+        }
+
+        saveCartToLocalStorage();
+        updateCartCount();
+        updateCartDisplay();
+
+        // 2. Fase de Éxito: Confirmación visual
+        btn.classList.remove('loading');
+        btn.classList.add('success');
+        btn.innerHTML = "¡Añadido! ✨";
+
+        // 3. Restauración: Volver al estado original tras 1.5 segundos
+        setTimeout(() => {
+            btn.classList.remove('success');
+            btn.innerHTML = originalContent;
+        }, 1200);
+
+    }, 500); 
 }
 
 // Mostrar notificación
