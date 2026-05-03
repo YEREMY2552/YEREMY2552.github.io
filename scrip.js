@@ -16,13 +16,15 @@ async function loadProductsFromSheet() {
             let cols = row.split(',');
             if (cols.length < 5) cols = row.split(';');
 
+            // Dentro de loadProductsFromSheet, en el products = rows.map...
             return {
                 id: parseInt(cols[0]) || index + 1,
                 name: cols[1]?.trim().replace(/"/g, ""),
                 price: parseFloat(cols[2]?.toString().replace(/[^\d,.]/g, '').replace(',', '.')) || 0,
                 category: cols[3] ? cols[3].trim().toLowerCase() : "todos",
                 description: cols[4]?.trim().replace(/"/g, ""),
-                image: cols[5]?.trim()
+                image: cols[5]?.trim(),
+                stock: parseInt(cols[6]) || 0 // <--- Nueva columna de Stock
             };
         });
 
@@ -37,29 +39,31 @@ async function loadProductsFromSheet() {
 function displayProducts(productsToShow) {
     const container = document.getElementById('productContainer');
     if (!container) return;
-    
-    container.innerHTML = ""; // Limpia la pantalla antes de mostrar los filtrados
+    container.innerHTML = ""; 
 
-    // Dentro de displayProducts en scrip_10.js
-productsToShow.forEach(product => {
-    const productCard = document.createElement('div');
-    productCard.className = 'product-card';
-    productCard.innerHTML = `
-        <div class="product-image">
-            <img src="${product.image}" alt="${product.name}">
-        </div>
-        <div class="product-info">
-            <span class="category-tag">${product.category}</span>
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <div class="product-price">$${product.price.toFixed(2)}</div>
-            <button class="add-btn" onclick="addToCart(${product.id})">
-                <span>🛒</span> Agregar al Carrito
-            </button>
-        </div>
-    `;
-    container.appendChild(productCard);
-});
+    productsToShow.forEach(product => {
+        const isOutOfStock = product.stock <= 0; // Verifica si no hay stock
+        const productCard = document.createElement('div');
+        productCard.className = `product-card ${isOutOfStock ? 'no-stock' : ''}`;
+        
+        productCard.innerHTML = `
+            ${isOutOfStock ? '<div class="out-of-stock-label">Agotado</div>' : ''}
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="product-info">
+                <span class="category-tag">${product.category}</span>
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="product-price">$${product.price.toFixed(2)}</div>
+                <button class="add-btn" 
+                    ${isOutOfStock ? 'disabled' : `onclick="addToCart(${product.id})"`}>
+                    ${isOutOfStock ? 'Sin Stock' : '<span>🛒</span> Agregar al Carrito'}
+                </button>
+            </div>
+        `;
+        container.appendChild(productCard);
+    });
 }
 
 
