@@ -307,20 +307,32 @@ function checkout() {
 
 // Función auxiliar para construir el mensaje
 function enviarWhatsApp(tipo, telefono, total, adelanto) {
-    // 1. Obtenemos los valores de los campos de texto
+    // Pega aquí la URL que copiaste de Google Apps Script
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyt4C9-IkVgWCdhIKvsM-2py3fOKqaSqviWvFCTApjK_oIOLVwJgzAxSJhETrUriFRRfg/exec'; 
+
+async function enviarWhatsApp(tipo, telefono, total, adelanto) {
     const nombre = document.getElementById('userName').value.trim();
     const fono = document.getElementById('userPhone').value.trim();
 
-    // 2. Validamos que no estén vacíos
     if (!nombre || !fono) {
-        alert("Por favor, ingresa tu nombre y número para procesar el pedido.");
+        alert("Por favor, ingresa tu nombre y número.");
         return;
     }
 
-    // 3. Construimos el mensaje
+    // --- NUEVO: Lógica para descontar stock ---
+    if (tipo.includes("RESERVA")) {
+        // Enviamos la orden de descuento al Excel de forma invisible
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: cart })
+        });
+    }
+    // ------------------------------------------
+
     let mensaje = `*${tipo}*%0A%0A`;
     mensaje += `Hola, soy *${nombre}* y contacto desde la web.%0A`;
-    mensaje += `*Mi número de contacto:* ${fono}%0A%0A`;
     mensaje += `*Pedido:*%0A`;
     
     cart.forEach(item => {
@@ -329,13 +341,18 @@ function enviarWhatsApp(tipo, telefono, total, adelanto) {
 
     if (adelanto !== null) {
         mensaje += `%0ATotal: $${total.toFixed(2)}%0A`;
-        mensaje += `*Monto de Adelanto (50%): $${adelanto.toFixed(2)}*%0A%0A`;
-        // AQUÍ AGREGAMOS LA NUEVA LÍNEA:
-        mensaje += `⚠️ *Por favor, adjunte su captura de transferencia para validar su reserva.*`;
+        mensaje += `*Adelanto (50%): $${adelanto.toFixed(2)}*%0A%0A`;
+        mensaje += `⚠️ *Por favor, adjunte su captura de transferencia.*`;
     }
 
-    // 4. Abrimos la ventana de WhatsApp
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
+    
+    // Opcional: Limpiar carrito después de comprar
+    cart = [];
+    saveCartToLocalStorage();
+    updateCartCount();
+    updateCartDisplay();
+    document.querySelector('.modal-overlay').remove();
 }
 
 // Guardar carrito en localStorage
@@ -358,4 +375,5 @@ if ('serviceWorker' in navigator) {
             .then(reg => console.log('🌸 CamiApp: Service Worker registrado con éxito'))
             .catch(err => console.warn('Error al registrar SW', err));
     });
+}
 }
