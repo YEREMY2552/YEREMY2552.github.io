@@ -305,8 +305,6 @@ function checkout() {
     });
 }
 
-// Función auxiliar para construir el mensaje
-function enviarWhatsApp(tipo, telefono, total, adelanto) {
 // 1. La URL debe estar fuera de la función
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyt4C9-IkVgWCdhIKvsM-2py3fOKqaSqviWvFCTApjK_oIOLVwJgzAxSJhETrUriFRRfg/exec'; 
 
@@ -376,5 +374,4 @@ if ('serviceWorker' in navigator) {
             .then(reg => console.log('🌸 CamiApp: Service Worker registrado con éxito'))
             .catch(err => console.warn('Error al registrar SW', err));
     });
-}
 }
