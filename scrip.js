@@ -81,17 +81,18 @@ let currentCategory = "all";
 let currentMaxPrice = 150;
 
 
-// Filtrar por categoría
+// --- FUNCIONES DE FILTRADO ---
+
 function filterByCategory(category, button) {
-    if (button) {
-        updateActiveButton(button);
-    }
+    // Actualiza visualmente el botón activo
+    const buttons = document.querySelectorAll('.category-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    if (button) button.classList.add('active');
 
     currentCategory = category.toLowerCase();
     applyFilters();
 }
 
-// Filtrar por precio
 function filterByPrice() {
     const priceRange = document.getElementById('priceRange');
     currentMaxPrice = parseInt(priceRange.value, 10);
@@ -99,14 +100,20 @@ function filterByPrice() {
     applyFilters();
 }
 
-// Aplicar todos los filtros
 function applyFilters() {
+    // 1. Filtrar la lista base de productos
     filteredProducts = products.filter(product => {
-        const categoryMatch = currentCategory === 'all' || currentCategory === 'todos' || product.category === currentCategory;
+        const categoryMatch = 
+            currentCategory === 'all' || 
+            currentCategory === 'todos' || 
+            product.category === currentCategory;
+        
         const priceMatch = product.price <= currentMaxPrice;
+        
         return categoryMatch && priceMatch;
     });
 
+    // 2. Aplicar búsqueda por texto si hay algo escrito
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     if (searchInput) {
         filteredProducts = filteredProducts.filter(product =>
@@ -115,6 +122,7 @@ function applyFilters() {
         );
     }
 
+    // 3. Dibujar los productos filtrados en pantalla
     displayProducts(filteredProducts);
 }
 
