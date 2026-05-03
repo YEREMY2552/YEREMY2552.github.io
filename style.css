@@ -591,3 +591,36 @@ body {
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 }
+
+/* Etiqueta de Agotado */
+.product-card {
+    position: relative; /* Necesario para ubicar la etiqueta dentro */
+}
+
+.out-of-stock-label {
+    position: absolute;
+    top: 20px;
+    left: -30px;
+    background: #ff4757;
+    color: white;
+    padding: 5px 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transform: rotate(-45deg);
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-size: 12px;
+    pointer-events: none;
+}
+
+/* Oscurecer un poco el producto agotado */
+.product-card.no-stock {
+    opacity: 0.7;
+    filter: grayscale(0.5);
+}
+
+.product-card.no-stock .add-btn {
+    background: #ccc !important;
+    cursor: not-allowed;
+    box-shadow: none;
+}
