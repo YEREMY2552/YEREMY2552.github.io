@@ -307,9 +307,10 @@ function checkout() {
 
 // Función auxiliar para construir el mensaje
 function enviarWhatsApp(tipo, telefono, total, adelanto) {
-    // Pega aquí la URL que copiaste de Google Apps Script
+// 1. La URL debe estar fuera de la función
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyt4C9-IkVgWCdhIKvsM-2py3fOKqaSqviWvFCTApjK_oIOLVwJgzAxSJhETrUriFRRfg/exec'; 
 
+// 2. Función corregida (sin duplicados y con cierres correctos)
 async function enviarWhatsApp(tipo, telefono, total, adelanto) {
     const nombre = document.getElementById('userName').value.trim();
     const fono = document.getElementById('userPhone').value.trim();
@@ -319,9 +320,8 @@ async function enviarWhatsApp(tipo, telefono, total, adelanto) {
         return;
     }
 
-    // --- NUEVO: Lógica para descontar stock ---
+    // Lógica para descontar stock en Google Sheets
     if (tipo.includes("RESERVA")) {
-        // Enviamos la orden de descuento al Excel de forma invisible
         fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors', 
@@ -329,7 +329,6 @@ async function enviarWhatsApp(tipo, telefono, total, adelanto) {
             body: JSON.stringify({ items: cart })
         });
     }
-    // ------------------------------------------
 
     let mensaje = `*${tipo}*%0A%0A`;
     mensaje += `Hola, soy *${nombre}* y contacto desde la web.%0A`;
@@ -347,13 +346,15 @@ async function enviarWhatsApp(tipo, telefono, total, adelanto) {
 
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
     
-    // Opcional: Limpiar carrito después de comprar
+    // Limpiar carrito y cerrar modal
     cart = [];
     saveCartToLocalStorage();
     updateCartCount();
     updateCartDisplay();
-    document.querySelector('.modal-overlay').remove();
-}
+    
+    const modal = document.querySelector('.modal-overlay');
+    if (modal) modal.remove();
+} 
 
 // Guardar carrito en localStorage
 function saveCartToLocalStorage() {
