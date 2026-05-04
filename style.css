@@ -543,8 +543,9 @@ body {
     }
 
     .categories {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        /* Cambia el '2' por un '3' si quieres 3 columnas de botones en el móvil */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px;
     }
 }
 
